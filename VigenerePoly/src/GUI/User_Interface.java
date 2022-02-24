@@ -14,7 +14,10 @@ import cryptography.algorithms;
 
 import java.awt.Color;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextArea;
 import javax.swing.JSeparator;
@@ -131,15 +134,21 @@ public class User_Interface {
 				}
 				else {
 					// Set plaintext and key values to alg object
-					
+					alg.setPlainText(plaintext_input);
+					alg.setKey(key);
+					alg.genKey();
+					alg.mapKeyAndText();
 					
 					// Encrypt the plain text using input key 
-					//String cipher_text = encrypt(plaintext_input)
-					//alg.setCipherText(cipher_text);
+					try {
+						alg.encrypt();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
 					// Show user the results from encryption
-					//textArea_ciphertext.setText(alg.getCipherText())
-					textArea_ciphertext.setText("test"); // Take this out
+					textArea_ciphertext.setText(alg.getCipherText());
 				}
 			}
 		});
@@ -150,9 +159,13 @@ public class User_Interface {
 		button_decrypt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Decrypt the cipher text
-				// String plaintext_output = decrypt(alg.getCipherText());
-				// textArea_plaintext_output.setText(plaintext_output)
-				textArea_plaintext_output.setText("test output"); // Take this out
+				try {
+					alg.decrypt();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				textArea_plaintext_output.setText(alg.getDecryptedPlainText());
 			}
 		});
 		button_decrypt.setBounds(140, 278, 89, 23);
@@ -166,7 +179,7 @@ public class User_Interface {
 				new User_Interface(new algorithms()); // Start new GUI
 			}
 		});
-		button_restart.setBounds(488, 219, 89, 23);
+		button_restart.setBounds(488, 171, 89, 23);
 		panel_main.add(button_restart);
 		
 		JButton button_stepbystep = new JButton("Step-by-step");
@@ -176,7 +189,7 @@ public class User_Interface {
 				StepByStep sbs = new StepByStep(alg);
 			}
 		});
-		button_stepbystep.setBounds(476, 253, 117, 23);
+		button_stepbystep.setBounds(476, 205, 117, 23);
 		panel_main.add(button_stepbystep);
 		
 		JLabel label_key_input = new JLabel("Enter Key:");
@@ -189,6 +202,30 @@ public class User_Interface {
 		separator.setForeground(Color.WHITE);
 		separator.setBounds(359, 39, 2, 339);
 		panel_main.add(separator);
+		
+		JFileChooser j = new JFileChooser();
+		j.setBounds(577, 292, -87, -53);
+		panel_main.add(j);
+		
+		JButton button_file_select = new JButton("Select File");
+		button_file_select.setBounds(476, 305, 126, 23);
+		button_file_select.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				j.showSaveDialog(null);
+				// invoke the showsSaveDialog function to show the save dialog
+	            int r = j.showSaveDialog(null);
+	            // if the user selects a file
+	            if (r == JFileChooser.APPROVE_OPTION)
+	            {
+	                // set the label to the path of the selected file
+	                String loc = j.getSelectedFile().getAbsolutePath();
+	                // System.out.println(loc);
+	                new file_opened(loc);
+	            }
+			}
+		});
+		panel_main.add(button_file_select);
+		
 		
 		frame.setVisible(true);
 		

@@ -1,17 +1,23 @@
 package cryptography;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+
 public class algorithms {
 
 	private String plaintext;
 	private String ciphertext;
 	private String key;
 	private String split_key;
+	private String plaintext_decrypted;
 	
 	public algorithms() {
 		this.plaintext = "";
 		this.key = "";
 		this.ciphertext = "";
 		this.split_key = "";
+		this.plaintext_decrypted = "";
 	}
 	
 	public void setKey(String k) { this.key = lowerToUpper(k); }
@@ -21,6 +27,7 @@ public class algorithms {
 	public String getKey() { return this.key; }
 	public String getSplitKey() { return this.split_key; }
 	public String getPlainText() { return this.plaintext; }
+	public String getDecryptedPlainText() { return this.plaintext_decrypted; }
 	
 	
 	public void genKey() {
@@ -71,6 +78,63 @@ public class algorithms {
 			}
 		}
 		this.split_key = str_k.toString();
+	}
+	
+	/**
+	 * 
+	 * @throws IOException 
+	 */
+	public void encrypt() throws IOException
+	{
+		BufferedReader br = new BufferedReader(new StringReader(this.plaintext));
+		String line = null;
+	    String cipher_text="";
+	    int i1 = 0;
+
+		while((line = br.readLine()) != null) {
+			for (int i = 0; i < line.length(); i++) {
+		    	if(Character.isWhitespace(line.charAt(i))) {
+		    		cipher_text+=(char)(' ');
+		    	} else {
+		    		// converting in range 0-25
+			        int x = (line.charAt(i) + this.key.charAt(i1)) %26;
+			        // convert into alphabets(ASCII)
+			        x += 'A';	 
+			        cipher_text+=(char)(x);
+		    	}
+		    	i1++;
+		    }
+			cipher_text+="\n";
+		}	    
+	    this.ciphertext = cipher_text;
+	}
+	
+	/**
+	 * 
+	 * @throws IOException
+	 */
+	public void decrypt() throws IOException {
+		String decrypted="";
+		BufferedReader br = new BufferedReader(new StringReader(this.ciphertext));
+		String line = null;
+		int i1 = 0;
+		
+		while((line = br.readLine()) != null) {
+			for (int i = 0 ; i < line.length() && i < key.length(); i++) {
+	    		if(Character.isWhitespace(line.charAt(i))) {
+	    			decrypted+=(char)(' ');
+		    	} else {
+		    		// converting in range 0-25
+			        int x = (line.charAt(i) - key.charAt(i1) + 26) %26;
+			        // convert into alphabets(ASCII)
+			        x += 'A';
+			        decrypted+=(char)(x);
+		    	}
+	    		i1++;
+		    }
+			decrypted+="\n";
+		}
+		this.plaintext_decrypted = decrypted;
 	}
 	
 }

@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -111,7 +112,7 @@ public class StepByStep {
 		textArea_note.setLineWrap(true);
 		textArea_note.setForeground(Color.RED);
 		textArea_note.setEditable(false);
-		textArea_note.setBounds(10, 11, 221, 119);
+		textArea_note.setBounds(10, 11, 221, 100);
 		panel_sbs.add(textArea_note);
 		
 		// Stage 2
@@ -124,7 +125,7 @@ public class StepByStep {
 		textArea_split = new JTextPane();
 		textArea_split.setBackground(UIManager.getColor("Panel.background"));
 		textArea_split.setForeground(Color.BLUE);
-		textArea_split.setBounds(10, 141, 221, 113);
+		textArea_split.setBounds(10, 107, 221, 147);
 		panel_sbs.add(textArea_split);
 		
 		JButton button_next = new JButton("Next");
@@ -162,8 +163,13 @@ public class StepByStep {
 					System.out.println("Step 2 plain text: " + pt_split);
 					
 					alg.genKey();
-					
 					alg.mapKeyAndText();
+					try {
+						alg.encrypt();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					String mapped = alg.getSplitKey();
 					
 					textArea_note.setText("Below is the generated key repeated to match the length of the plain text message.\n\nNext, we generate the cipher text!");
