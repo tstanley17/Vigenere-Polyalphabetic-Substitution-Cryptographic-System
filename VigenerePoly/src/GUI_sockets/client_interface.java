@@ -52,19 +52,20 @@ public class client_interface {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.GRAY);
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
 		JLabel label_from = new JLabel("From:");
 		label_from.setHorizontalAlignment(SwingConstants.LEFT);
 		label_from.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label_from.setBounds(10, 11, 422, 30);
+		label_from.setBounds(10, 24, 111, 30);
 		panel.add(label_from);
 		
 		JLabel label_to = new JLabel("To:");
 		label_to.setHorizontalAlignment(SwingConstants.LEFT);
 		label_to.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label_to.setBounds(450, 11, 422, 30);
+		label_to.setBounds(450, 24, 111, 30);
 		panel.add(label_to);
 		
 		textArea_to = new JTextArea();
@@ -73,17 +74,19 @@ public class client_interface {
 		
 		textArea_from = new JTextArea();
 		textArea_from.setEditable(false);
-		textArea_from.setBounds(0, 52, 422, 464);
+		textArea_from.setBounds(10, 52, 412, 464);
 		panel.add(textArea_from);
 		
+		/*
 		JScrollBar scrollBar_v_from = new JScrollBar();
 		scrollBar_v_from.setBounds(423, 52, 17, 464);
 		panel.add(scrollBar_v_from);
 		
 		JScrollBar scrollBar_h_from = new JScrollBar();
 		scrollBar_h_from.setOrientation(JScrollBar.HORIZONTAL);
-		scrollBar_h_from.setBounds(0, 514, 422, 17);
+		scrollBar_h_from.setBounds(10, 514, 412, 17);
 		panel.add(scrollBar_h_from);
+		*/		
 		
 		JLabel label_key = new JLabel("Key:");
 		label_key.setBounds(460, 295, 46, 14);
@@ -164,7 +167,8 @@ public class client_interface {
 		panel.add(button_decrypt);
 		
 		JLabel lblNewLabel = new JLabel("Note: to decrypt messages, paste them into the text area labeled \"To:\".");
-		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setBackground(Color.GRAY);
+		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setBounds(10, 536, 422, 14);
 		panel.add(lblNewLabel);
 		

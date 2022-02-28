@@ -65,7 +65,7 @@ public class StepByStep {
 		//frame_table.setLocation(700,100);
 		
 		JPanel panel_main = new JPanel();
-		panel_main.setBackground(Color.DARK_GRAY);
+		panel_main.setBackground(Color.GRAY);
 		panel_main.setForeground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(panel_main, BorderLayout.CENTER);
 		panel_main.setLayout(null);
@@ -130,11 +130,6 @@ public class StepByStep {
 		
 		JButton button_next = new JButton("Next");
 		button_next.setBounds(29, 276, 181, 23);
-		panel_sbs.add(button_next);
-		
-		JButton btnExit = new JButton("EXIT");
-		btnExit.setBounds(10, 11, 87, 23);
-		panel_main.add(btnExit);
 		button_next.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				switch (stage) {
@@ -214,6 +209,17 @@ public class StepByStep {
 				}
 			}
 		});
+		panel_sbs.add(button_next);
+		
+		JButton button_exit = new JButton("EXIT");
+		button_exit.setBounds(10, 11, 87, 23);
+		button_exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { 
+					frame.dispose();
+					new User_Interface(new algorithms());
+				}
+			});
+		panel_main.add(button_exit);
 		
 		
 		frame.setVisible(true);

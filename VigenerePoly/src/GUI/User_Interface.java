@@ -11,9 +11,6 @@ import java.awt.Font;
 import javax.swing.JTextField;
 
 import cryptography.algorithms;
-import messaging.Client;
-import messaging.Server;
-import messaging.ServerCheck;
 import messaging.thread_chat;
 
 import java.awt.Color;
@@ -53,11 +50,11 @@ public class User_Interface {
 		frame = new JFrame();
 		frame.setAutoRequestFocus(false);
 		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
-		frame.setBounds(100, 100, 753, 450);
+		frame.setBounds(100, 100, 765, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel_main = new JPanel();
-		panel_main.setBackground(Color.DARK_GRAY);
+		panel_main.setBackground(Color.GRAY);
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 				groupLayout.createParallelGroup(Alignment.LEADING)
@@ -81,20 +78,20 @@ public class User_Interface {
 		label_title.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		panel_main.add(label_title);
 
-		JLabel label_input = new JLabel("Input plaintext:");
-		label_input.setForeground(Color.WHITE);
-		label_input.setBounds(21, 47, 85, 14);
-		panel_main.add(label_input);
+		JLabel lblInputPlaintext = new JLabel("Input Plaintext:");
+		lblInputPlaintext.setForeground(Color.WHITE);
+		lblInputPlaintext.setBounds(21, 47, 85, 14);
+		panel_main.add(lblInputPlaintext);
 
-		JLabel label_ciphertext = new JLabel("Resulting cipher text:");
-		label_ciphertext.setForeground(Color.WHITE);
-		label_ciphertext.setBounds(21, 205, 175, 14);
-		panel_main.add(label_ciphertext);
+		JLabel lblResultingCiphertext = new JLabel("Resulting Ciphertext:");
+		lblResultingCiphertext.setForeground(Color.WHITE);
+		lblResultingCiphertext.setBounds(21, 205, 175, 14);
+		panel_main.add(lblResultingCiphertext);
 
-		JLabel label_decryption_plaintext = new JLabel("Plaintext after decryption:");
-		label_decryption_plaintext.setForeground(Color.WHITE);
-		label_decryption_plaintext.setBounds(382, 47, 250, 14);
-		panel_main.add(label_decryption_plaintext);
+		JLabel lblPlaintextAfterDecryption = new JLabel("Plaintext After Decryption:");
+		lblPlaintextAfterDecryption.setForeground(Color.WHITE);
+		lblPlaintextAfterDecryption.setBounds(382, 47, 250, 14);
+		panel_main.add(lblPlaintextAfterDecryption);
 
 		JTextArea textArea_plaintext_input = new JTextArea();
 		textArea_plaintext_input.setBounds(21, 60, 328, 49);
@@ -105,7 +102,7 @@ public class User_Interface {
 		panel_main.add(textArea_ciphertext);
 
 		JTextArea textArea_plaintext_output = new JTextArea();
-		textArea_plaintext_output.setBounds(382, 60, 328, 49);
+		textArea_plaintext_output.setBounds(382, 60, 328, 78);
 		panel_main.add(textArea_plaintext_output);
 		frame.getContentPane().setLayout(groupLayout);
 
@@ -186,7 +183,7 @@ public class User_Interface {
 				new User_Interface(new algorithms()); // Start new GUI
 			}
 		});
-		button_restart.setBounds(488, 171, 89, 23);
+		button_restart.setBounds(382, 149, 328, 23);
 		panel_main.add(button_restart);
 
 		JButton button_stepbystep = new JButton("Step-by-step");
@@ -196,7 +193,7 @@ public class User_Interface {
 				StepByStep sbs = new StepByStep(alg);
 			}
 		});
-		button_stepbystep.setBounds(476, 205, 117, 23);
+		button_stepbystep.setBounds(382, 182, 328, 23);
 		panel_main.add(button_stepbystep);
 
 		JLabel label_key_input = new JLabel("Enter Key:");
@@ -207,7 +204,7 @@ public class User_Interface {
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setForeground(Color.WHITE);
-		separator.setBounds(359, 39, 2, 339);
+		separator.setBounds(359, 47, 2, 339);
 		panel_main.add(separator);
 
 		JFileChooser j = new JFileChooser();
@@ -216,7 +213,7 @@ public class User_Interface {
 		panel_main.add(j);
 
 		JButton button_file_select = new JButton("Select File");
-		button_file_select.setBounds(476, 305, 126, 23);
+		button_file_select.setBounds(382, 244, 328, 23);
 		button_file_select.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				j.showSaveDialog(null);
@@ -236,7 +233,7 @@ public class User_Interface {
 		panel_main.add(button_file_select);
 
 		JButton button_chat = new JButton("Chat");
-		button_chat.setBounds(488, 339, 89, 23);
+		button_chat.setBounds(382, 278, 328, 23);
 		button_chat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 

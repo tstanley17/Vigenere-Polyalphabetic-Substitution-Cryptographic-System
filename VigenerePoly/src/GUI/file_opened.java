@@ -25,6 +25,7 @@ import javax.swing.JButton;
 import cryptography.algorithms;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileSystemView;
+import java.awt.Color;
 
 
 public class file_opened {
@@ -67,11 +68,12 @@ public class file_opened {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();
+		panel.setBackground(Color.GRAY);
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(10, 54, 121, 23);
+		textField.setBounds(46, 54, 135, 23);
 		panel.add(textField);
 		textField.setColumns(10);
 		
@@ -81,8 +83,8 @@ public class file_opened {
 		panel.add(textArea_file_content);
 		
 		label_file_name = new JLabel("");
-		label_file_name.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label_file_name.setBounds(10, 23, 764, 25);
+		label_file_name.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		label_file_name.setBounds(10, 11, 764, 32);
 		label_file_name.setText(file_loc);
 		panel.add(label_file_name);
 		
@@ -92,7 +94,7 @@ public class file_opened {
 		 * 
 		 */
 		button_encrypt = new JButton("Encrypt");
-		button_encrypt.setBounds(141, 54, 89, 23);
+		button_encrypt.setBounds(191, 54, 89, 23);
 		button_encrypt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(textField.getText() == "") {
@@ -120,7 +122,7 @@ public class file_opened {
 		 * 
 		 */
 		button_decrypt = new JButton("Decrypt");
-		button_decrypt.setBounds(240, 54, 89, 23);
+		button_decrypt.setBounds(290, 54, 89, 23);
 		button_decrypt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -197,6 +199,11 @@ public class file_opened {
 			}
 		});
 		panel.add(button_exit);
+		
+		JLabel label_key = new JLabel("Key:");
+		label_key.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		label_key.setBounds(4, 58, 46, 14);
+		panel.add(label_key);
 		
 		// 
 		frame.setVisible(true);	
