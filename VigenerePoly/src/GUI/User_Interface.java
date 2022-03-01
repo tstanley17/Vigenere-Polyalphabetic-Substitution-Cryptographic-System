@@ -156,9 +156,24 @@ public class User_Interface {
 				}
 			}
 		});
-		button_encrypt.setBounds(136, 171, 89, 23);
+		button_encrypt.setBounds(80, 171, 89, 23);
 		panel_main.add(button_encrypt);
-
+		
+		JButton button_random = new JButton("Random");
+		button_random.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String key = "";
+				String plaintext_input = textArea_plaintext_input.getText();
+				for(int i = 0; i < Math.random()*plaintext_input.length(); i++) {
+					key = key + (char)(Math.random()*26+'A');
+				}
+				
+				textField_key_input.setText(key);
+			}
+		});
+		button_random.setBounds(200, 171, 89, 23);
+		panel_main.add(button_random);
+		
 		JButton button_decrypt = new JButton("Decrypt");
 		button_decrypt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
