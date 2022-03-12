@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 
 import cryptography.algorithms;
 import messaging.thread_chat;
@@ -41,6 +42,14 @@ public class User_Interface {
 		this.alg = alg;
 		initialize();
 	}
+	
+	//Validate for punctuation
+	public String verify_input(String inputText) {
+		if (inputText.isEmpty()) {
+			return "";
+		}
+		return inputText.replaceAll("\\pP|\\pS|\\pC|\\pN", "");
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -56,20 +65,12 @@ public class User_Interface {
 		JPanel panel_main = new JPanel();
 		panel_main.setBackground(Color.GRAY);
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panel_main, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-						.addContainerGap())
-				);
-		groupLayout.setVerticalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(panel_main, GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
-						.addContainerGap())
-				);
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
+						.addComponent(panel_main, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE).addContainerGap()));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
+						.addComponent(panel_main, GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE).addContainerGap()));
 		panel_main.setLayout(null);
 
 		JLabel label_title = new JLabel("Vigen\u00E8re Polyalphabetic Substitution Cryptographic System");
@@ -122,50 +123,61 @@ public class User_Interface {
 		JButton button_encrypt = new JButton("Encrypt");
 		button_encrypt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Get the plaintext and key input
-				String plaintext_input = textArea_plaintext_input.getText();
-				String key = textField_key_input.getText();
+				// verify the form of plaintext whether correct or not
+				String plaintext_input = verify_input(textArea_plaintext_input.getText());
+				if (plaintext_input.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please enter plain text!");
+					return;
+				}
+				
+				// verify the form of key whether correct or not
+				String key = verify_input(textField_key_input.getText());
+				if (key.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please enter the correct key!");
+					return;
+				}
 
-				//Testing
+				// Testing
 				System.out.println("Plain Text: " + plaintext_input);
 				System.out.println("Key: " + key);
 
-				// Check if plaintext and key were input
-				if(plaintext_input.equals("") || key.equals("")) {
-					textArea_output.setText("Please enter both plain text and key!");
-					textField_key_input.setText("");
-					textArea_plaintext_input.setText("");
-				}
-				else {
-					// Set plaintext and key values to alg object
-					alg.setPlainText(plaintext_input);
-					alg.setKey(key);
-					alg.genKey();
-					alg.mapKeyAndText();
+				// Set plaintext and key values to alg object
+				alg.setPlainText(plaintext_input);
+				alg.setKey(key);
+				alg.genKey();
+				alg.mapKeyAndText();
 
-					// Encrypt the plain text using input key 
-					try {
-						alg.encrypt();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					// Show user the results from encryption
-					textArea_ciphertext.setText(alg.getCipherText());
+				// Encrypt the plain text using input key
+				try {
+					alg.encrypt();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+
+				// Show user the results from encryption
+				textArea_ciphertext.setText(alg.getCipherText());
 			}
 		});
 		button_encrypt.setBounds(80, 171, 89, 23);
 		panel_main.add(button_encrypt);
-		
+
 		JButton button_random = new JButton("Random");
 		button_random.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
+				String plaintext_input = verify_input(textArea_plaintext_input.getText());
+				if (plaintext_input.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please enter plain text!");
+					return;
+				}
+
+				alg.setPlainText(plaintext_input);
+
 				String key = "";
-				String plaintext_input = textArea_plaintext_input.getText();
-				for(int i = 0; i < Math.random()*plaintext_input.length(); i++) {
-					key = key + (char)(Math.random()*26+'A');
+
+				for (int i = 0; i < Math.random() * alg.getPlainText().length(); i++) {
+					key = key + (char) (Math.random() * 26 + 'A');
 				}
 				
 				textField_key_input.setText(key);
@@ -173,10 +185,14 @@ public class User_Interface {
 		});
 		button_random.setBounds(200, 171, 89, 23);
 		panel_main.add(button_random);
-		
+
 		JButton button_decrypt = new JButton("Decrypt");
 		button_decrypt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String ciphertext = textArea_ciphertext.getText();
+				if (ciphertext.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Please decrypt text first!");
+				}
 				// Decrypt the cipher text
 				try {
 					alg.decrypt();
@@ -231,12 +247,10 @@ public class User_Interface {
 		button_file_select.setBounds(382, 244, 328, 23);
 		button_file_select.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				j.showSaveDialog(null);
 				// invoke the showsSaveDialog function to show the save dialog
 				int r = j.showSaveDialog(null);
 				// if the user selects a file
-				if (r == JFileChooser.APPROVE_OPTION)
-				{
+				if (r == JFileChooser.APPROVE_OPTION) {
 					// set the label to the path of the selected file
 					String loc = j.getSelectedFile().getAbsolutePath();
 					// System.out.println(loc);
@@ -253,12 +267,12 @@ public class User_Interface {
 			public void actionPerformed(ActionEvent e) {
 
 				int port = 4021;
-				
-				try {	
+
+				try {
 					thread_chat chat = new thread_chat("230.0.0.0", port, new client_interface());
 					Thread t = new Thread(chat);
 					t.start();
-					
+
 					// This second thread is for demostration
 					thread_chat chat2 = new thread_chat("230.0.0.0", port, new client_interface());
 					Thread t2 = new Thread(chat2);
@@ -267,11 +281,9 @@ public class User_Interface {
 					e1.printStackTrace();
 				}
 
-
 			}
 		});
 		panel_main.add(button_chat);
-
 
 		frame.setVisible(true);
 
