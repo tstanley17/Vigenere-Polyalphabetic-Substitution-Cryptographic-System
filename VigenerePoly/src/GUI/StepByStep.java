@@ -18,6 +18,7 @@ import org.w3c.dom.events.Event;
 import cryptography.algorithms;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
@@ -135,6 +136,16 @@ public class StepByStep {
 				switch (stage) {
 				case 1:
 					System.out.println("Stage 1.");
+					
+					if(textField_s1_pt.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Please enter plain text!");
+						return;
+					}
+					
+					if (textField_s1_key.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "Please enter the correct key!");
+						return;
+					}
 					
 					String pt = textField_s1_pt.getText();
 					String key = textField_s1_key.getText();
