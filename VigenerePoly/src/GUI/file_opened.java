@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 
 import cryptography.algorithms;
 import javax.swing.JTextField;
@@ -151,7 +154,7 @@ public class file_opened {
 				FileWriter writer = null;
 				try {
 					File new_file = new File(file_loc);
-					System.out.println(FileSystemView.getFileSystemView().getDefaultDirectory().getPath());
+//					System.out.println(FileSystemView.getFileSystemView().getDefaultDirectory().getPath());
 					writer = new FileWriter(new_file);
 					writer.write(textArea_file_content.getText());
 					writer.flush();
@@ -167,18 +170,31 @@ public class file_opened {
 		/**
 		 * 
 		 */
+		JFileChooser j = new JFileChooser();
+		j.setCurrentDirectory(new File("./Documents"));
+		j.setBounds(577, 292, -87, -53);
+		panel.add(j);
+		
 		button_save_new = new JButton("Save to New File");
 		button_save_new.setBounds(504, 54, 141, 23);
 		button_save_new.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FileWriter writer = null;
 				try {
-					File file = new File((FileSystemView.getFileSystemView().getDefaultDirectory().getPath()+"\\SavedMessage.txt"));
-					file.getParentFile().mkdirs(); 
-					file.createNewFile();
-					writer = new FileWriter(file);
-					writer.write(textArea_file_content.getText());
-					writer.flush();
+					//show save dialog
+					int r = j.showSaveDialog(null);
+					if (r == JFileChooser.APPROVE_OPTION) {
+						
+						File newFile = j.getSelectedFile();
+					
+						newFile.getParentFile().mkdirs();
+						
+						//save the text in a new file
+						newFile.createNewFile();
+						writer = new FileWriter(newFile);
+						writer.write(textArea_file_content.getText());
+						writer.flush();
+					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
