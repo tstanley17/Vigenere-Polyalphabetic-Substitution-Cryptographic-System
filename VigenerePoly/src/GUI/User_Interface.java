@@ -164,7 +164,6 @@ public class User_Interface {
 
 		JButton button_random = new JButton("Random");
 		button_random.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
 				String plaintext_input = verify_input(textArea_plaintext_input.getText());
 				if (plaintext_input.isEmpty()) {
@@ -248,7 +247,7 @@ public class User_Interface {
 		button_file_select.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// invoke the showsSaveDialog function to show the save dialog
-				int r = j.showSaveDialog(null);
+				int r = j.showOpenDialog(null);
 				// if the user selects a file
 				if (r == JFileChooser.APPROVE_OPTION) {
 					// set the label to the path of the selected file
