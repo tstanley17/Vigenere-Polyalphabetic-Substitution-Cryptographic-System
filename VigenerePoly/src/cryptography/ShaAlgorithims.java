@@ -28,7 +28,7 @@ public class ShaAlgorithims {
 		this.ciphertext = ciphertext;
 	}
 
-	public void decrypt(){
+	public void encrypt(){
         if(plaintext==null||plaintext.length()==0){
             return;
         }
