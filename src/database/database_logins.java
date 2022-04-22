@@ -14,16 +14,15 @@ import java.sql.SQLException;
 import java.util.Random;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
-
 import Hashing.hashing_algorithms;
 
 public class database_logins {
 
 
-	static String DB_URL = "jdbc:mysql://localhost:3306/vigeneresystem"; // DB url - NOTE: characterEncoding needed for system error handline
+	static String DB_URL = "jdbc:mysql://localhost:3306/vigeneresystem?characterEncoding=latin1"; // DB url - NOTE: characterEncoding needed for system error handline
 	private static String dbUser = "root"; // User name for database
-	private static String passWord = "longer000"; // PW for database
+	private static String passWord = "Basketball14!"; // PW for database
+	Connection conn = null;
 
 
 	/**
@@ -39,8 +38,13 @@ public class database_logins {
 	public boolean checkCredentials(String uname, String pw) {
 
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection conn = DriverManager.getConnection(DB_URL, dbUser, passWord);			
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL, dbUser, passWord);	
+			if(conn!=null) {
+				System.out.println("Connection successful!");
+			} else {
+				System.out.println("Connection failed!");
+			}
 
 			int honeyIndex = getHoneyIndex(uname);
 			String check = "";
@@ -80,34 +84,31 @@ public class database_logins {
 				System.out.println("Invalid honey index!");
 				break;
 			}
-			
-			if (!check.isEmpty()) {
-				PreparedStatement ps = conn.prepareStatement(check);
-				ps.setString(1, uname);
+
+			PreparedStatement ps = conn.prepareStatement(check);
+			ps.setString(1, uname);
 
 			
-//				String hashedpw = hashing_algorithms.SHA2(pw);
-				ps.setString(2, pw);
+			String hashedpw = hashing_algorithms.SHA2(pw);
+			ps.setString(2, hashedpw);
 			
-				System.out.println(ps.toString());
-			
-				ResultSet rs = ps.executeQuery();
 
-				if(rs.next()) {
-					return true;
-				};
-				
-				ps.close();
-				conn.close();
-			}
-			
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return false;
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}	
+			ResultSet rs = ps.executeQuery();
+
+			if(rs.next())
+				return true;
+
+			ps.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
 		return false;
 	}
 
@@ -122,11 +123,7 @@ public class database_logins {
 	public boolean newUser(String uname, String pw) {
 
 		try {
-			if(this.isUniqueUser(uname) == false) {
-				JOptionPane.showMessageDialog(null, "This username already exists");
-				return false;
-			}
-						
+
 			Connection conn = DriverManager.getConnection(DB_URL, dbUser, passWord);			
 			String check = "INSERT INTO vigeneresystem.login (user, pw1, pw2, pw3, pw4, pw5, pw6, pw7, pw8, pw9, pw10) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 
@@ -135,13 +132,11 @@ public class database_logins {
 
 			// Random placement of pw and honey words
 			Random random = new Random();
-			int rand = random.nextInt(9) + 1;
+			int rand = random.nextInt(10) + 1;
 
-			for(int i = 2; i <= 11; i++) {
+			for(int i = 1; i <= 10; i++) {
 				if(i == rand) {
-//					pw = this.randomPw();
-					String pw1 = hashing_algorithms.SHA2(pw);
-					ps.setString(i, pw1);
+					ps.setString(i, pw);
 				} else {
 					ps.setString(i, randomPw());
 				}
@@ -171,7 +166,7 @@ public class database_logins {
 	 * Function: Generate a random hashed password to insert as honey words in database
 	 * 
 	 * @return
-	Please provide your salary expectations for this position.  */
+	 */
 	public String randomPw() {
 
 		String charList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -266,12 +261,12 @@ public class database_logins {
 	public static void main(String args[]) {
 
 		database_logins db = new database_logins();
-//		boolean check = db.checkCredentials("trent", "password");
-//		System.out.println(check);
-//
-//		System.out.println(db.isUniqueUser("trent"));
+/*		boolean check = db.checkCredentials("trent", "password");
+		System.out.println(check);
 
-//		boolean checkInsert = db.newUser("trent1", "password");
-//		System.out.println(checkInsert);
+		System.out.println(db.isUniqueUser("trent"));
+*/
+		boolean checkInsert = db.newUser("trent", "password");
+		System.out.println(checkInsert);
 	}
 }

@@ -99,7 +99,7 @@ public class LoginGUI {
 		Password_note.setBounds(158, 167, 177, 13);
 		panel.add(Password_note);
 		
-		JButton done_button = new JButton("done");
+		JButton done_button = new JButton("Login");
 		done_button.setBounds(151, 205, 85, 21);
 		done_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -109,12 +109,18 @@ public class LoginGUI {
 				String Pword = Password_text.getText();
 				
 				if (Uname.isEmpty() || Pword.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Please finish the Log in first");
+					JOptionPane.showMessageDialog(null, "Please finish the filling in your credentials.");
 					return;
 				}else {
-					db.newUser(Uname, Pword);
-					frame.dispose();
-					new SigninGUI();
+					boolean check = db.checkCredentials(Uname, Pword);
+					if(check) {
+						frame.dispose();
+						algorithms alg = new algorithms();
+						User_Interface ui = new User_Interface(alg);
+					} else {
+						JOptionPane.showMessageDialog(null, "Incorrect username or password.");
+					}
+					
 				}
 			}
 			
