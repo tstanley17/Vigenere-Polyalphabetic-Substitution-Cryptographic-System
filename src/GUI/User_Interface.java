@@ -265,21 +265,23 @@ public class User_Interface {
 		button_chat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				int port = 4021;
-
-				try {
-					thread_chat chat = new thread_chat("230.0.0.0", port, new client_interface());
-					Thread t = new Thread(chat);
-					t.start();
-
-					// This second thread is for demostration
-					thread_chat chat2 = new thread_chat("230.0.0.0", port, new client_interface());
-					Thread t2 = new Thread(chat2);
-					t2.start();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-
+//				int port = 4021;
+//
+//				try {
+//					thread_chat chat = new thread_chat("230.0.0.0", port, new client_interface());
+//					Thread t = new Thread(chat);
+//					t.start();
+//
+//					// This second thread is for demostration
+//					thread_chat chat2 = new thread_chat("230.0.0.0", port, new client_interface());
+//					Thread t2 = new Thread(chat2);
+//					t2.start();
+//				} catch (Exception e1) {
+//					e1.printStackTrace();
+//				}
+				
+				frame.dispose();
+				new Login_GUI();
 			}
 		});
 		panel_main.add(button_chat);

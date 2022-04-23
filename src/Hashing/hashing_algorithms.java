@@ -17,14 +17,21 @@ public class hashing_algorithms {
 	public static String SHA2(String input) {
 		
 		MessageDigest digest = null;
+		
 		try {
 			digest = MessageDigest.getInstance("SHA-256");
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
+		
 		byte[] encodedhash = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+		StringBuilder sb = new StringBuilder();
+		
+        for(int i=0; i< encodedhash.length ;i++) {
+            sb.append(Integer.toString((encodedhash[i] & 0xff) + 0x100, 16).substring(1));         
+        }
 
-		return encodedhash.toString();
+		return sb.toString();
 	}
 	
 	/**
@@ -73,8 +80,8 @@ public class hashing_algorithms {
 		System.out.println();
 		
 		String input2 = "1Hello World!";
-		System.out.println(MD5(input2));
-		System.out.println(SHA2(input2));
+		System.out.println(MD5(input));
+		System.out.println(SHA2(input));
 		
 	}
 

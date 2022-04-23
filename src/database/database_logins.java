@@ -19,9 +19,9 @@ import Hashing.hashing_algorithms;
 public class database_logins {
 
 
-	static String DB_URL = "jdbc:mysql://localhost:3306/vigeneresystem?characterEncoding=latin1"; // DB url - NOTE: characterEncoding needed for system error handline
+	static String DB_URL = "jdbc:mysql://localhost:3306/vigeneresystem"; // DB url - NOTE: characterEncoding needed for system error handline
 	private static String dbUser = "root"; // User name for database
-	private static String passWord = "Basketball14!"; // PW for database
+	private static String passWord = "longer000"; // PW for database
 	Connection conn = null;
 
 
@@ -91,7 +91,6 @@ public class database_logins {
 			
 			String hashedpw = hashing_algorithms.SHA2(pw);
 			ps.setString(2, hashedpw);
-			
 
 			ResultSet rs = ps.executeQuery();
 
@@ -123,7 +122,10 @@ public class database_logins {
 	public boolean newUser(String uname, String pw) {
 
 		try {
-
+			if(uname.isEmpty() || pw.isEmpty()) {
+				return false;
+			}
+			
 			Connection conn = DriverManager.getConnection(DB_URL, dbUser, passWord);			
 			String check = "INSERT INTO vigeneresystem.login (user, pw1, pw2, pw3, pw4, pw5, pw6, pw7, pw8, pw9, pw10) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 
@@ -136,9 +138,10 @@ public class database_logins {
 
 			for(int i = 1; i <= 10; i++) {
 				if(i == rand) {
-					ps.setString(i, pw);
+					String enpw = hashing_algorithms.SHA2(pw);
+					ps.setString(i+1, enpw);
 				} else {
-					ps.setString(i, randomPw());
+					ps.setString(i+1, randomPw());
 				}
 			}
 
@@ -266,7 +269,7 @@ public class database_logins {
 
 		System.out.println(db.isUniqueUser("trent"));
 */
-		boolean checkInsert = db.newUser("trent", "password");
-		System.out.println(checkInsert);
+//		boolean checkInsert = db.newUser("trent", "password");
+//		System.out.println(checkInsert);
 	}
 }

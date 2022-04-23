@@ -6,7 +6,8 @@ public class Driver {
 
 	public static void main(String[] args) {
 		
-		LoginGUI l = new LoginGUI();
+		algorithms alg = new algorithms();
+		User_Interface ui = new User_Interface(alg);
 		//SignupGUI s = new SignupGUI();
 
 		
