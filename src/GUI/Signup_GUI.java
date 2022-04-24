@@ -110,7 +110,7 @@ public class Signup_GUI {
 				
 				//check the input is not empty 
 				if (Uname.isEmpty() || Pword.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Please finish the filling in your credentials.");
+					JOptionPane.showMessageDialog(null, "Please finish the filling in your information.");
 					return;
 				}else {
 					//check the

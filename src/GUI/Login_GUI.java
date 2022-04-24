@@ -109,6 +109,8 @@ public class Login_GUI {
 				//Check that the password and username are correct
 				if(db.checkCredentials(Uname, Pword) == true) {
 					//if correct, open the chat room
+					frame.dispose();
+					
 					int port = 4021;
 
 					try {

@@ -52,6 +52,13 @@ public class StepByStep {
 		initialize();
 	}
 
+	public String verify_input(String inputText) {
+		if (inputText.isEmpty()) {
+			return "";
+		}
+		return inputText.replaceAll("\\pP|\\pS|\\pC|\\pN", "");
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -137,7 +144,9 @@ public class StepByStep {
 				case 1:
 					System.out.println("Stage 1.");
 					
-					if(textField_s1_pt.getText().isEmpty()) {
+					String plaintxt = verify_input(textField_s1_pt.getText());
+					
+					if(plaintxt.isEmpty()) {
 						JOptionPane.showMessageDialog(null, "Please enter plain text!");
 						return;
 					}
@@ -147,7 +156,7 @@ public class StepByStep {
 						return;
 					}
 					
-					String pt = textField_s1_pt.getText();
+					String pt = plaintxt;
 					String key = textField_s1_key.getText();
 					alg.setKey(key);
 					alg.setPlainText(pt);

@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,6 +45,13 @@ public class client_interface {
 		this.check = 0;
 	}
 
+	public String verify_input(String inputText) {
+		if (inputText.isEmpty()) {
+			return "";
+		}
+		return inputText.replaceAll("\\pP|\\pS|\\pC|\\pN", "");
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -100,7 +109,7 @@ public class client_interface {
 		button_encrypt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Get the plaintext and key input
-				String plaintext_input = textArea_to.getText();
+				String plaintext_input = verify_input(textArea_to.getText());
 				String key = textField_key.getText();
 
 				//Testing
@@ -108,10 +117,13 @@ public class client_interface {
 				System.out.println("Key: " + key);
 
 				// Check if plaintext and key were input
-				if(plaintext_input.equals("") || key.equals("")) {
-					textArea_to.setText("Please enter both plain text and key!");
-					textField_key.setText("");
-					textArea_to.setText("");
+				if(plaintext_input.equals("")) {
+					JOptionPane.showMessageDialog(null, "Please enter plain text.");
+					return;
+				}
+				else if(key.equals("")){
+					JOptionPane.showMessageDialog(null, "Please enter key.");
+					return;
 				}
 				else {
 					// Set plaintext and key values to alg object
